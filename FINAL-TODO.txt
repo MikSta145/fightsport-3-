@@ -1,0 +1,21 @@
+FIGHTSPORTS v12 FINAL FRONTEND
+
+Zrobione:
+- brak szerokich fallbacków kategorii,
+- naprawione lokalne linki do sklepu,
+- poprawione oczywiste przypisania produktów do kategorii,
+- poprawione publiczne dane kontaktowe firmy,
+- unikalne title/meta description dla produktów, kategorii i producentów,
+- kontrola składni JavaScript,
+- kontrola lokalnych linków.
+
+Do wykonania dopiero przy WordPress + WooCommerce:
+- prawdziwe zamówienia i płatności,
+- stany magazynowe,
+- konto klienta,
+- wysyłki,
+- newsletter,
+- regulamin / polityka prywatności w finalnej wersji prawnej.
+
+Do uzupełnienia przez właściciela:
+- dokładne URL-e Facebook / Instagram / YouTube, jeśli mają być aktywne.

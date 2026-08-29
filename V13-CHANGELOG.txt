@@ -1,0 +1,4 @@
+FIGHTSPORTS v13
+- usunięto z galerii produktów grafiki kategorii / placeholdery,
+- pozostawiono tylko zdjęcia przypisane do konkretnego produktu,
+- bez zmian w designie, layoutcie i CSS.
