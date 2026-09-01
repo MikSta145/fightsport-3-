@@ -1,0 +1,7 @@
+FIGHTSPORTS v15
+- przywrócono dokładnie 4 ikony benefitów,
+- 1: Polska firma — kontur Polski z flagą Polski,
+- 2: Sklepy stacjonarne — ikona z poprzedniej wersji,
+- 3: Wysyłka 24h — ikona z poprzedniej wersji,
+- 4: Bezpieczne zakupy — prosty check,
+- reszta v14 bez zmian.

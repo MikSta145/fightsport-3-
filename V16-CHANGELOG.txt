@@ -1,0 +1,4 @@
+FIGHTSPORTS v16
+- poprawiono 1. ikonę: Polska bardziej przypomina kontur Polski,
+- poprawiono 4. ikonę: check został umieszczony w okręgu,
+- reszta v15 bez zmian.

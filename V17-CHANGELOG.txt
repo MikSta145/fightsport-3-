@@ -1,0 +1,5 @@
+FIGHTSPORTS v17
+- poprawiono wyłącznie 1. ikonę Polski,
+- kontur jest bardziej zbliżony do przesłanego przykładu,
+- flaga biało-czerwona została zachowana,
+- reszta v16 bez zmian.

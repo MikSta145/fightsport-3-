@@ -1,0 +1,12 @@
+FIGHTSPORTS v20
+- poprawiono wyłącznie ikonę Polski,
+- użyto pełnego, ręcznie zweryfikowanego wycinka ze screena KFD,
+- dodano duży wewnętrzny margines, by nic nie mogło zostać ucięte,
+- ikona jest mniejsza od kontenera zarówno na desktopie, jak i mobile,
+- zachowano wszystkie pozostałe elementy v19.
+
+Automatyczna kontrola marginesów mapy (na asset 256x256):
+left=38px
+top=46px
+right=38px
+bottom=47px

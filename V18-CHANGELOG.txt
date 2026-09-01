@@ -1,0 +1,5 @@
+FIGHTSPORTS v18
+- zmieniono wyłącznie ikonę „Polska firma”,
+- wykorzystano mapkę Polski z przesłanego screena referencyjnego KFD,
+- zachowano biało-czerwone wypełnienie i czarny kontur,
+- reszta v17 bez zmian.

@@ -479,7 +479,7 @@ const baseProducts = [{"id":"FS-1034","slug":"under-armour-bidon-playmaker-squee
       return `
         <article class="product-card">
           <div class="product-photo">
-            <a href="${href}" data-product="${product.id}" aria-label="Zobacz produkt ${escapeHtml(product.name)}">
+            <a href="${href}" data-product="${product.id}" aria-label="Otwórz produkt ${escapeHtml(product.name)}">
               <img src="${productImage(product)}" alt="${escapeHtml(product.name)}" onerror="this.src=fallbackImage" />
             </a>
             <div class="badges">
@@ -490,10 +490,11 @@ const baseProducts = [{"id":"FS-1034","slug":"under-armour-bidon-playmaker-squee
             <div class="brand-line">${escapeHtml(product.brand)}</div>
             <a class="product-name" href="${href}" data-product="${product.id}">${escapeHtml(product.name)}</a>
             <div class="product-meta">${escapeHtml(product.category)} / ${escapeHtml(product.subcategory || "Produkt")}</div>
-            <div class="price-line"><strong>${pln(product.price)}</strong>${product.oldPrice ? '<span class="old-price">' + pln(product.oldPrice) + '</span>' : ""}</div>
-            <div class="card-actions">
-              <a class="outline-button" href="${href}" data-product="${product.id}">Zobacz produkt</a>
-              <button class="cart-button add-cart-button" type="button" data-add="${product.id}">${cartMiniIcon()}<span>Dodaj do koszyka</span></button>
+            <div class="product-card-footer">
+              <div class="price-line"><strong>${pln(product.price)}</strong>${product.oldPrice ? '<span class="old-price">' + pln(product.oldPrice) + '</span>' : ""}</div>
+              <button class="product-quick-cart" type="button" data-add="${product.id}" aria-label="Dodaj ${escapeHtml(product.name)} do koszyka" title="Dodaj do koszyka">
+                ${cartMiniIcon()}
+              </button>
             </div>
           </div>
         </article>
@@ -723,6 +724,40 @@ const baseProducts = [{"id":"FS-1034","slug":"under-armour-bidon-playmaker-squee
       return list.length ? list : [{ id: fallback, label: fallback }];
     }
 
+    function productSizeItems(product) {
+      const explicit = optionItems(product.sizes, "uniwersalny");
+      const labels = explicit.map(item => String(item.label || "").trim());
+      const generic = labels.length === 1 && /^(uniwersalny|standard)$/i.test(labels[0]);
+
+      const fromVariants = (product.variants || []).map((item, index) => {
+        const raw = String(typeof item === "string" ? item : (item.label || item.id || "")).trim();
+        if (!raw) return null;
+        const prefixed = raw.match(/^rozmiar\s*:\s*(.+)$/i);
+        const clean = prefixed ? prefixed[1].trim() : raw;
+        const sizeLike = Boolean(prefixed) ||
+          /^(XXXS|XXS|XS|S|M|L|XL|XXL|XXXL)$/i.test(clean) ||
+          /^\d+(?:[.,]\d+)?\s*oz$/i.test(clean) ||
+          /^\d{2}(?:[.,]\d+)?$/.test(clean);
+        if (!sizeLike) return null;
+        return { id: (typeof item === "object" && item.id) ? item.id : "rozmiar-" + index, label: clean };
+      }).filter(Boolean);
+
+      if (fromVariants.length && (generic || fromVariants.length > explicit.length)) {
+        const seen = new Set();
+        return fromVariants.filter(item => {
+          const key = item.label.toLowerCase();
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        });
+      }
+
+      return explicit.map(item => ({
+        id: item.id,
+        label: String(item.label || "").replace(/^rozmiar\s*:\s*/i, "").trim()
+      }));
+    }
+
     function selectOptions(items) {
       return items.map(item => '<option value="' + escapeHtml(item.id) + '">' + escapeHtml(item.label) + '</option>').join("");
     }
@@ -749,8 +784,7 @@ const baseProducts = [{"id":"FS-1034","slug":"under-armour-bidon-playmaker-squee
       const discount = discountPercent(product);
       const categorySlug = product.categorySlug + (product.subcategorySlug ? ":" + product.subcategorySlug : "");
       const gallery = productGallery(product);
-      const variants = optionItems(product.variants, "Wariant standard");
-      const sizes = optionItems(product.sizes, "uniwersalny");
+      const sizes = productSizeItems(product);
       const related = products
         .filter(item => item.id !== product.id && (item.subcategorySlug === product.subcategorySlug || item.categorySlug === product.categorySlug))
         .sort((a, b) => productScore(b) - productScore(a))
@@ -782,7 +816,6 @@ const baseProducts = [{"id":"FS-1034","slug":"under-armour-bidon-playmaker-squee
             <div class="badges" style="position:static">${productBadge(product, discount)}</div>
             <div class="price-line"><strong>${pln(product.price)}</strong>${product.oldPrice ? '<span class="old-price">' + pln(product.oldPrice) + '</span>' : ""}</div>
             <div class="product-choice-grid">
-              <label class="field" for="productVariantSelect"><span>Wariant</span><select id="productVariantSelect">${selectOptions(variants)}</select></label>
               <label class="field" for="productSizeSelect"><span>Rozmiar</span><select id="productSizeSelect">${selectOptions(sizes)}</select></label>
             </div>
             <label class="quantity-field" for="productQty">
@@ -816,8 +849,7 @@ const baseProducts = [{"id":"FS-1034","slug":"under-armour-bidon-playmaker-squee
             <div class="info-grid" style="margin-top:0">
               <div class="info-box"><strong>Marka</strong><span>${escapeHtml(product.brand)}</span></div>
               <div class="info-box"><strong>Kategoria</strong><span>${escapeHtml(product.category)}</span></div>
-              <div class="info-box"><strong>Warianty</strong><span>${variants.map(item => escapeHtml(item.label)).join(", ")}</span></div>
-              <div class="info-box"><strong>Rozmiary</strong><span>${sizes.map(item => escapeHtml(item.label)).join(", ")}</span></div>
+              <div class="info-box"><strong>Rozmiar</strong><span>${sizes.map(item => escapeHtml(item.label)).join(", ")}</span></div>
             </div>
           </article>
           <article class="product-info-panel">

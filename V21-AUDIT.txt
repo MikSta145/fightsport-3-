@@ -1,0 +1,9 @@
+FIGHTSPORTS v21 MOBILE FINAL
+- Wariant/Warianty usunięte z widocznej karty produktu.
+- Został jeden wybór: Rozmiar.
+- Rozmiary zapisane wcześniej w wariantach są zachowywane automatycznie.
+- Mobile: header, hero, benefity, produkty, kategorie, produkt, koszyk i checkout ustabilizowane.
+- iOS: pola formularzy 16px, aby Safari nie zoomowało przy focusie.
+- Desktop > 860px bez zmian layoutowych.
+- JavaScript: OK.
+- Błędne lokalne linki: 0.

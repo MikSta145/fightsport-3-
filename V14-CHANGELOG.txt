@@ -1,0 +1,12 @@
+FIGHTSPORTS v14
+- dodano szary pasek: Wybrane dla Ciebie / Bestsellery / Nowości / Promocje,
+- pasek przewija płynnie do sekcji na stronie głównej,
+- O Fight Sport -> O Fightsports,
+- ikona Polska firma -> kontur Polski,
+- Bezpieczne zakupy -> ikona check,
+- pomniejszono kafelki produktów,
+- usunięto przycisk Zobacz produkt,
+- cena jest po lewej, szybki koszyk po prawej,
+- baner promocyjny przeniesiony wizualnie nad Promocje,
+- ukryto dolne Kategorie i Popularnych producentów,
+- design/branding strony pozostawiono bez przebudowy.

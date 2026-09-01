@@ -1,0 +1,5 @@
+FIGHTSPORTS v19
+- poprawiono wyłącznie przycięcie ikonki Polski z referencji KFD,
+- pełny kontur mapy ma teraz dodatkowy margines z każdej strony,
+- nic nie jest przycinane,
+- reszta v18 bez zmian.
