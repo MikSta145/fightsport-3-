@@ -1,0 +1,15 @@
+FIGHTSPORTS v27 — MOBILE STICKY TOP FIX
+
+Naprawa:
+- usunięto stałe 64px odstępu nad paskiem na mobile,
+- top paska jest liczony z aktualnie WIDOCZNEJ części headera,
+- gdy header sklepu zjedzie poza ekran, pasek ma top: 0,
+- gdy header jest widoczny/sticky, pasek ustawia się dokładnie pod nim,
+- brak sztucznej dziury z produktami nad paskiem,
+- scroll-margin sekcji jest również liczony dynamicznie,
+- reszta v26 bez zmian.
+
+Kontrole:
+- script.js: OK
+- fs-sticky-jump.js: OK
+- błędne lokalne linki: 0

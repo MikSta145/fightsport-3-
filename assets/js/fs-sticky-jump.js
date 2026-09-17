@@ -9,8 +9,18 @@
 
   let ticking = false;
   let shellTop = 0;
-  let headerHeight = 0;
   let barHeight = 0;
+
+  function visibleHeaderBottom() {
+    const rect = header.getBoundingClientRect();
+
+    // Header całkowicie zjechał do góry -> pasek ma być przy top: 0.
+    if (rect.bottom <= 0) return 0;
+
+    // Header jest widoczny/sticky/ częściowo widoczny.
+    // Używamy realnej dolnej krawędzi w viewport coordinates.
+    return Math.max(0, Math.round(rect.bottom));
+  }
 
   function measure() {
     const wasFixed = shell.classList.contains("fs-jump-is-fixed");
@@ -19,21 +29,11 @@
       shell.classList.remove("fs-jump-is-fixed");
     }
 
-    headerHeight = Math.round(header.getBoundingClientRect().height);
     barHeight = Math.round(bar.getBoundingClientRect().height);
     shell.style.height = barHeight + "px";
 
     const rect = shell.getBoundingClientRect();
     shellTop = Math.round(rect.top + window.scrollY);
-
-    document.documentElement.style.setProperty(
-      "--fs-live-header-height",
-      headerHeight + "px"
-    );
-    document.documentElement.style.setProperty(
-      "--fs-live-scroll-offset",
-      (headerHeight + barHeight + 14) + "px"
-    );
 
     if (wasFixed) {
       shell.classList.add("fs-jump-is-fixed");
@@ -43,7 +43,20 @@
   function sync() {
     ticking = false;
 
-    const shouldFix = window.scrollY + headerHeight >= shellTop;
+    const fixedTop = visibleHeaderBottom();
+    document.documentElement.style.setProperty(
+      "--fs-jump-fixed-top",
+      fixedTop + "px"
+    );
+
+    document.documentElement.style.setProperty(
+      "--fs-live-scroll-offset",
+      (fixedTop + barHeight + 14) + "px"
+    );
+
+    // Fixujemy pasek dokładnie wtedy, gdy jego naturalna pozycja
+    // doszłaby do miejsca pod aktualnie widocznym headerem.
+    const shouldFix = window.scrollY + fixedTop >= shellTop;
 
     if (shouldFix) {
       shell.classList.add("fs-jump-is-fixed");
@@ -76,8 +89,6 @@
     window.setTimeout(recalc, 180);
   }, { once: true });
 
-  /* Re-measure after drawer closes because iOS body scroll-lock
-     changes positioning context while the menu is open. */
   document.addEventListener("click", function (event) {
     if (event.target.closest(
       ".fs-mobile-close, .fs-mobile-overlay, [data-fs-mobile-nav-link]"

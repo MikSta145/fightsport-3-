@@ -1787,3 +1787,21 @@ body { overflow-x: clip; }
     z-index: 90 !important;
   }
 }
+
+
+/* ==========================================================
+   v27 MOBILE STICKY TOP FIX
+   Pasek przykleja się dokładnie pod WIDOCZNĄ częścią headera.
+   Gdy header zjedzie z ekranu, top automatycznie = 0.
+   ========================================================== */
+
+.fs-jump-shell.fs-jump-is-fixed > #homeJumpBar.home-jump-bar {
+  top: var(--fs-jump-fixed-top, 0px) !important;
+}
+
+/* Nie rezerwuj już sztucznego 64px na mobile. */
+@media (max-width: 860px) {
+  .fs-jump-shell.fs-jump-is-fixed > #homeJumpBar.home-jump-bar {
+    top: var(--fs-jump-fixed-top, 0px) !important;
+  }
+}
