@@ -1480,11 +1480,42 @@ body { overflow-x: clip; }
   .product-name { min-height: 0 !important; font-size: 12.5px !important; line-height: 1.27 !important; overflow-wrap: anywhere; }
   .product-meta { min-height: 0 !important; font-size: 9.5px !important; line-height: 1.3 !important; }
   .brand-line { font-size: 9px !important; }
-  .product-card-footer { min-width: 0 !important; min-height: 36px !important; gap: 4px !important; }
-  .product-card-footer .price-line { min-width: 0 !important; flex-wrap: wrap !important; }
+  /* v28: stabilny footer karty na mobile — koszyk nie może „uciekać” przy długiej cenie/nazwie */
+  .product-card-footer {
+    min-width: 0 !important;
+    width: 100% !important;
+    min-height: 36px !important;
+    margin-top: auto !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) 32px !important;
+    align-items: end !important;
+    gap: 6px !important;
+  }
+  .product-card-footer .price-line {
+    min-width: 0 !important;
+    width: 100% !important;
+    flex-wrap: wrap !important;
+    align-self: end !important;
+    margin: 0 !important;
+  }
   .product-card-footer .price-line strong { font-size: 14.5px !important; white-space: nowrap; }
   .product-card-footer .old-price { font-size: 9.5px !important; }
-  .product-quick-cart { flex: 0 0 32px !important; width: 32px !important; height: 32px !important; }
+  .product-quick-cart {
+    position: static !important;
+    inset: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    flex: none !important;
+    min-width: 32px !important;
+    max-width: 32px !important;
+    width: 32px !important;
+    min-height: 32px !important;
+    max-height: 32px !important;
+    height: 32px !important;
+    justify-self: end !important;
+    align-self: end !important;
+    transform: none !important;
+  }
 
   .marketing-banner { grid-template-columns: 1fr !important; min-height: 0 !important; padding: 20px !important; gap: 10px !important; }
   .marketing-banner h2 { font-size: 28px !important; }
@@ -1544,8 +1575,9 @@ body { overflow-x: clip; }
   #categoryProducts, .related-section .products-grid { gap: 8px !important; }
   .product-body { padding: 8px !important; }
   .product-name { font-size: 11.5px !important; }
+  .product-card-footer { grid-template-columns: minmax(0, 1fr) 30px !important; gap: 5px !important; }
   .product-card-footer .price-line strong { font-size: 13.5px !important; }
-  .product-quick-cart { flex-basis: 30px !important; width: 30px !important; height: 30px !important; }
+  .product-quick-cart { min-width: 30px !important; max-width: 30px !important; width: 30px !important; min-height: 30px !important; max-height: 30px !important; height: 30px !important; }
 }
 
 
@@ -1803,5 +1835,131 @@ body { overflow-x: clip; }
 @media (max-width: 860px) {
   .fs-jump-shell.fs-jump-is-fixed > #homeJumpBar.home-jump-bar {
     top: var(--fs-jump-fixed-top, 0px) !important;
+  }
+}
+
+/* ==========================================================
+   v29 DESKTOP CATEGORY SYNC
+   Desktopowe Kategorie mają tę samą kolejność i hierarchię
+   co menu mobilne. Mobile pozostaje bez zmian.
+   ========================================================== */
+@media (min-width: 861px) {
+  .mega-panel[data-mega-panel="categories"] {
+    grid-template-columns: 270px minmax(0, 1fr) !important;
+    gap: 30px !important;
+    min-height: 430px !important;
+    max-height: min(620px, calc(100vh - 130px)) !important;
+    overflow: hidden !important;
+  }
+
+  .fs-desktop-category-tabs {
+    display: flex !important;
+    flex-direction: column !important;
+    align-content: initial !important;
+    gap: 0 !important;
+    padding-right: 18px !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+
+  .fs-desktop-category-tabs button {
+    flex: 0 0 auto !important;
+    min-height: 49px !important;
+    border-radius: 0 !important;
+    border-bottom: 1px solid #eef0f3 !important;
+    padding: 0 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    font-size: 15px !important;
+    line-height: 1.2 !important;
+    text-transform: none !important;
+  }
+
+  .fs-desktop-category-tabs button:first-child {
+    border-top: 1px solid #eef0f3 !important;
+  }
+
+  .fs-desktop-category-tabs button.active,
+  .fs-desktop-category-tabs button:hover {
+    background: #f7f7f8 !important;
+    color: var(--red) !important;
+  }
+
+  .fs-desktop-category-content {
+    min-width: 0 !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+    padding-right: 4px !important;
+  }
+
+  .fs-desktop-category-content .fs-desktop-category-panel {
+    grid-template-columns: 1fr !important;
+    align-content: start !important;
+    gap: 20px !important;
+  }
+
+  .fs-desktop-category-heading {
+    padding-bottom: 16px !important;
+    border-bottom: 1px solid #eceef0 !important;
+  }
+
+  .fs-desktop-category-heading > a {
+    display: inline-block !important;
+    color: #111 !important;
+    font-size: 24px !important;
+    line-height: 1.1 !important;
+    font-weight: 1000 !important;
+  }
+
+  .fs-desktop-category-heading > a:hover {
+    color: var(--red) !important;
+  }
+
+  .fs-desktop-category-heading > span {
+    display: block !important;
+    max-width: 760px !important;
+    margin-top: 7px !important;
+    color: #6a6a6a !important;
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+  }
+
+  .fs-desktop-subcategory-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 0 28px !important;
+    align-content: start !important;
+  }
+
+  .fs-desktop-subcategory-grid > a {
+    min-height: 43px !important;
+    display: flex !important;
+    align-items: center !important;
+    border-bottom: 1px solid #f0f1f2 !important;
+    color: #222 !important;
+    font-size: 14px !important;
+    line-height: 1.3 !important;
+    font-weight: 760 !important;
+  }
+
+  .fs-desktop-subcategory-grid > a:hover {
+    color: var(--red) !important;
+  }
+
+  .fs-desktop-category-all {
+    grid-column: 1 / -1 !important;
+    max-width: 320px !important;
+    color: var(--red) !important;
+    font-weight: 900 !important;
+  }
+
+  /* Pasek kategorii pod headerem: identyczna kolejność jak w menu mobile. */
+  .category-nav .page-wrap {
+    gap: 24px !important;
+  }
+
+  .category-pill {
+    font-size: 12.5px !important;
   }
 }

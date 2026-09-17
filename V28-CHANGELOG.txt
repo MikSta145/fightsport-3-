@@ -1,0 +1,6 @@
+FIGHTSPORTS v28 — MOBILE CART CARD FIX
+
+- Naprawiono uciekający/przesuwający się przycisk koszyka na kartach produktów w wersji mobilnej.
+- Footer karty produktu na mobile korzysta teraz z dwukolumnowego CSS Grid: cena + stała kolumna koszyka.
+- Przycisk koszyka ma stały rozmiar i nie może być wypychany przez długą cenę, starą cenę ani tekst produktu.
+- Zachowano wygląd i zachowanie v27, w tym sticky jump bar i mobile navigation.

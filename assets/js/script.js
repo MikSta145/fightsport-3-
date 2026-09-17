@@ -349,21 +349,55 @@ const baseProducts = [{"id":"FS-1034","slug":"under-armour-bidon-playmaker-squee
     }
 
     function renderHeaderNav() {
+      // v29: desktop ma dokładnie tę samą kolejność głównych kategorii co menu mobilne.
       const preferred = [
-        ["all", "Wszystko"],
-        ["odzywki-i-suplementy", "Suplementy"],
-        ["odzywki-i-suplementy:kreatyna", "Kreatyna"],
+        ["odzywki-i-suplementy", "Suplementy i odżywki"],
         ["sporty-walki", "Sporty walki"],
-        ["rekawice", "Rękawice"],
-        ["ochraniacze", "Ochraniacze"],
-        ["odziez", "Odzież sportowa"],
+        ["odziez-meska", "Odzież męska"],
+        ["odziez-damska", "Odzież damska"],
+        ["odziez-dziecieca", "Odzież dziecięca"],
+        ["obuwie-sportowe", "Obuwie sportowe"],
         ["akcesoria", "Akcesoria"],
-        ["wyprzedaz", "Promocje"]
+        ["sprzet-sportowy", "Sprzęt sportowy"],
+        ["nowosci", "Nowości"],
+        ["wyprzedaz", "Wyprzedaż"]
       ];
       byId("categoryNav").innerHTML = preferred.map(([slug, label]) => {
-        const active = slug === activeCategory || (slug !== "all" && activeCategory.startsWith(slug + ":"));
+        const active = slug === activeCategory || activeCategory.startsWith(slug + ":");
         return '<a class="category-pill ' + (active ? "active" : "") + '" href="' + categoryHref(slug) + '" data-category="' + slug + '">' + escapeHtml(label) + "</a>";
       }).join("");
+
+      // Desktopowe menu „Kategorie” korzysta z tej samej struktury co mobile:
+      // Suplementy → Sporty walki → odzież → obuwie → akcesoria → sprzęt → nowości → wyprzedaż.
+      const desktopCategoryPanel = document.querySelector('[data-mega-panel="categories"]');
+      if (desktopCategoryPanel) {
+        const desktopCategories = categories.filter(category => preferred.some(([slug]) => slug === category.slug));
+        desktopCategoryPanel.innerHTML = `
+          <div class="mega-tabs fs-desktop-category-tabs" role="tablist" aria-label="Kategorie sklepu">
+            ${desktopCategories.map((category, index) => `
+              <button class="${index === 0 ? "active" : ""}" type="button" role="tab" aria-selected="${index === 0 ? "true" : "false"}" data-mega-tab="${escapeHtml(category.slug)}">${escapeHtml(category.name)}</button>
+            `).join("")}
+          </div>
+          <div class="mega-content fs-desktop-category-content">
+            ${desktopCategories.map((category, index) => `
+              <div class="mega-tab-panel fs-desktop-category-panel ${index === 0 ? "active" : ""}" data-mega-content="${escapeHtml(category.slug)}">
+                <div class="fs-desktop-category-heading">
+                  <a href="${categoryHref(category.slug)}" data-category="${escapeHtml(category.slug)}">${escapeHtml(category.name)}</a>
+                  <span>${escapeHtml(category.description || "Zobacz produkty z tej kategorii.")}</span>
+                </div>
+                <div class="fs-desktop-subcategory-grid">
+                  ${(category.subcategories || []).length
+                    ? category.subcategories.map(subcategory => `
+                        <a href="${categoryHref(category.slug + ":" + subcategory.slug)}" data-category="${escapeHtml(category.slug + ":" + subcategory.slug)}">${escapeHtml(subcategory.name)}</a>
+                      `).join("")
+                    : `<a class="fs-desktop-category-all" href="${categoryHref(category.slug)}" data-category="${escapeHtml(category.slug)}">Zobacz wszystkie produkty</a>`}
+                </div>
+              </div>
+            `).join("")}
+          </div>
+        `;
+      }
+
       // Mobile navigation is rendered in HTML and managed by fs-mobile-nav.js.
       const brandBox = byId("megaBrandsList");
       if (brandBox) {

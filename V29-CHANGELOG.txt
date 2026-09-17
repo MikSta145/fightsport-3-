@@ -1,0 +1,10 @@
+FIGHTSPORTS v29 - DESKTOP CATEGORY SYNC
+
+- Zachowano wszystkie poprawki v28, w tym mobile cart fix.
+- Menu mobilne kategorii pozostaje bez zmian.
+- Desktopowe menu „Kategorie” ma teraz tę samą kolejność głównych kategorii co mobile:
+  Suplementy i odżywki, Sporty walki, Odzież męska, Odzież damska,
+  Odzież dziecięca, Obuwie sportowe, Akcesoria, Sprzęt sportowy, Nowości, Wyprzedaż.
+- Podkategorie na desktopie są pobierane z tej samej struktury danych co mobile.
+- Pasek kategorii pod desktopowym headerem ma tę samą kolejność kategorii.
+- Nie zmieniano layoutu mobile, sticky paska ani wyglądu kart poza poprawkami odziedziczonymi z v28.
