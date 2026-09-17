@@ -1,0 +1,25 @@
+FIGHTSPORTS v22 — MOBILE HEADER + MOBILE MENU
+
+Zmiany:
+- mobile header: hamburger | elastyczna wyszukiwarka | konto | koszyk w jednym rzędzie,
+- naprawiony overflow i wypychanie koszyka poza viewport,
+- drawer min(88vw, 380px), pełny overlay i animacja 260 ms,
+- pierwszy poziom menu: Kategorie / Producenci / O FIGHTSPORTS,
+- accordion poziomu 1 + drugi accordion dla kategorii z podkategoriami,
+- kwadratowy X 44x44,
+- zamykanie X / overlay / link / Escape,
+- iOS scroll lock z zachowaniem pozycji strony,
+- osobne assets/css/fs-mobile-nav.css i assets/js/fs-mobile-nav.js,
+- klasy mobilne mają prefix fs-mobile-* dla łatwego portu do WordPress/WooCommerce,
+- desktop CSS i logika produktów/koszyka nie zostały przebudowane.
+
+Dane statyczne menu:
+- kategorii głównych: 10
+- producentów: 40
+
+Przenoszenie do WordPress/WooCommerce:
+- markup .fs-mobile-menu przenieść do header.php,
+- Kategorie generować z product_cat / wp_nav_menu,
+- Producentów generować z użytej taksonomii marek,
+- O FIGHTSPORTS generować z menu WordPress,
+- zachować data-fs-mobile-toggle / aria-controls i pliki fs-mobile-nav.css/js; JS nie zależy od frameworka.

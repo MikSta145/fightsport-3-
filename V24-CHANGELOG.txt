@@ -1,0 +1,17 @@
+FIGHTSPORTS v24 — BAR EXACT
+
+Zmiany:
+- pasek Wybrane dla Ciebie / Bestsellery / Nowości / Promocje
+  jest dokładnie bezpośrednio pod sliderem,
+- pasek ma pełną szerokość viewportu,
+- pasek nie jest sticky,
+- 4 benefity są bezpośrednio pod paskiem,
+- po benefitach zaczyna się Wybrane dla Ciebie,
+- na mobile poziome przewijanie dotyczy tylko samego paska,
+- menu mobilne i header z v23 pozostawiono bez zmian.
+
+Kontrole:
+- kolejność: slider -> pasek -> benefity -> Wybrane dla Ciebie: OK
+- JavaScript: OK
+- błędne lokalne linki: 0
+- pliki mobile nav v23: zachowane

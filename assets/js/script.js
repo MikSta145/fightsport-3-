@@ -364,22 +364,7 @@ const baseProducts = [{"id":"FS-1034","slug":"under-armour-bidon-playmaker-squee
         const active = slug === activeCategory || (slug !== "all" && activeCategory.startsWith(slug + ":"));
         return '<a class="category-pill ' + (active ? "active" : "") + '" href="' + categoryHref(slug) + '" data-category="' + slug + '">' + escapeHtml(label) + "</a>";
       }).join("");
-      const mobileRows = [
-        { label: "Kategorie", category: "all", featured: true },
-        { label: "Odżywki i suplementy", category: "odzywki-i-suplementy" },
-        { label: "Zdrowie i kondycja", category: "odzywki-i-suplementy:zdrowie-i-uroda" },
-        { label: "Żywność dietetyczna", category: "odzywki-i-suplementy:zdrowa-zywnosc" },
-        { label: "Sporty walki", category: "sporty-walki" },
-        { label: "Odzież i akcesoria", category: "odziez" },
-        { label: "Producenci", info: "producenci" },
-        { label: "O FIGHTSPORTS", info: "onas" }
-      ];
-      byId("mobileMenuList").innerHTML = mobileRows.map(row => {
-        const className = row.featured ? "mobile-menu-featured" : "mobile-menu-row";
-        const inner = '<span>' + escapeHtml(row.label) + '</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m9 5 7 7-7 7"/></svg>';
-        if (row.info) return '<button class="' + className + '" type="button" data-info="' + row.info + '">' + inner + '</button>';
-        return '<a class="' + className + '" href="' + categoryHref(row.category) + '" data-category="' + row.category + '">' + inner + '</a>';
-      }).join("");
+      // Mobile navigation is rendered in HTML and managed by fs-mobile-nav.js.
       const brandBox = byId("megaBrandsList");
       if (brandBox) {
         const brands = [...new Set(products.map(product => product.brand).filter(Boolean))]
@@ -1115,14 +1100,26 @@ const baseProducts = [{"id":"FS-1034","slug":"under-armour-bidon-playmaker-squee
 
     function openMobile() {
       closeMega();
-      byId("mobileDrawer").classList.add("open");
-      byId("mobileDrawer").setAttribute("aria-hidden", "false");
+      if (window.FSMobileNav && typeof window.FSMobileNav.open === "function") {
+        window.FSMobileNav.open();
+        return;
+      }
+      const drawer = byId("mobileDrawer");
+      if (!drawer) return;
+      drawer.classList.add("open");
+      drawer.setAttribute("aria-hidden", "false");
       document.body.classList.add("mobile-menu-open");
     }
 
     function closeMobile() {
-      byId("mobileDrawer").classList.remove("open");
-      byId("mobileDrawer").setAttribute("aria-hidden", "true");
+      if (window.FSMobileNav && typeof window.FSMobileNav.close === "function") {
+        window.FSMobileNav.close();
+        return;
+      }
+      const drawer = byId("mobileDrawer");
+      if (!drawer) return;
+      drawer.classList.remove("open");
+      drawer.setAttribute("aria-hidden", "true");
       document.body.classList.remove("mobile-menu-open");
     }
 
@@ -1262,8 +1259,6 @@ const baseProducts = [{"id":"FS-1034","slug":"under-armour-bidon-playmaker-squee
         if (target.matches("[data-close-checkout]")) byId("checkoutModal").classList.remove("open");
         if (target.matches("[data-open-account]")) byId("accountModal").classList.add("open");
         if (target.matches("[data-close-account]")) byId("accountModal").classList.remove("open");
-        if (target.matches("[data-open-mobile]")) openMobile();
-        if (target.matches("[data-close-mobile]")) closeMobile();
         if (target.matches("[data-footer-accordion]")) target.closest(".footer-accordion").classList.toggle("open");
         if (target.matches("[data-info]")) {
           event.preventDefault();
@@ -1295,10 +1290,14 @@ const baseProducts = [{"id":"FS-1034","slug":"under-armour-bidon-playmaker-squee
         event.preventDefault();
         window.location.href = searchPath(byId("headerSearchInput").value);
       });
-      byId("mobileSearch").addEventListener("submit", event => {
-        event.preventDefault();
-        window.location.href = searchPath(byId("mobileSearchInput").value);
-      });
+      const mobileSearch = byId("mobileSearch");
+      if (mobileSearch) {
+        mobileSearch.addEventListener("submit", event => {
+          event.preventDefault();
+          const input = byId("mobileSearchInput");
+          window.location.href = searchPath(input ? input.value : "");
+        });
+      }
       byId("catalogSearchInput").addEventListener("input", event => {
         catalogQuery = event.target.value;
         visibleCatalog = 32;

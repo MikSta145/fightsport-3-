@@ -1,0 +1,295 @@
+/* FIGHTSPORTS mobile navigation v22. Scoped/prefixed for future WordPress/WooCommerce port. */
+@media (max-width: 860px) {
+  html, body { max-width: 100%; overflow-x: hidden !important; }
+  .top-strip { display: none !important; }
+
+  .fs-mobile-header {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 64px !important;
+    display: grid !important;
+    grid-template-columns: 44px minmax(0, 1fr) 42px 42px !important;
+    grid-template-rows: 48px !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+    padding-left: max(10px, env(safe-area-inset-left)) !important;
+    padding-right: max(10px, env(safe-area-inset-right)) !important;
+    margin: 0 !important;
+  }
+  .fs-mobile-header > .brand,
+  .fs-mobile-header > .main-nav { display: none !important; }
+  .fs-mobile-header .header-actions { display: contents !important; }
+
+  .fs-mobile-trigger {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    width: 44px !important;
+    min-width: 44px !important;
+    height: 44px !important;
+    min-height: 44px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 10px !important;
+    place-self: center !important;
+    color: #111 !important;
+  }
+  .fs-mobile-trigger svg { width: 27px !important; height: 27px !important; }
+  body.mobile-menu-open .fs-mobile-trigger::before { content: none !important; }
+  body.mobile-menu-open .fs-mobile-trigger svg path { display: initial !important; }
+
+  .fs-mobile-search {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    height: 44px !important;
+    min-height: 44px !important;
+    margin: 0 !important;
+    padding-left: 12px !important;
+    border-radius: 22px !important;
+    overflow: hidden !important;
+  }
+  .fs-mobile-search input {
+    width: 100% !important;
+    min-width: 0 !important;
+    font-size: 16px !important;
+  }
+  .fs-mobile-search .icon-button {
+    flex: 0 0 40px !important;
+    width: 40px !important;
+    min-width: 40px !important;
+    height: 40px !important;
+  }
+
+  .fs-mobile-account,
+  .fs-mobile-cart {
+    grid-row: 1 !important;
+    width: 42px !important;
+    min-width: 42px !important;
+    max-width: 42px !important;
+    height: 42px !important;
+    min-height: 42px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    place-self: center !important;
+    flex: 0 0 42px !important;
+  }
+  .fs-mobile-account { grid-column: 3 !important; }
+  .fs-mobile-cart { grid-column: 4 !important; }
+  .fs-mobile-account svg, .fs-mobile-cart svg { width: 24px !important; height: 24px !important; }
+
+  body.mobile-menu-open {
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    overflow: hidden !important;
+    overscroll-behavior: none;
+  }
+
+  .fs-mobile-drawer {
+    position: fixed !important;
+    inset: 0 !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+    display: block !important;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .fs-mobile-drawer.open { visibility: visible; pointer-events: auto; }
+
+  .fs-mobile-overlay {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    border: 0 !important;
+    background: rgba(0,0,0,.42) !important;
+    opacity: 0;
+    transition: opacity 240ms ease;
+  }
+  .fs-mobile-drawer.open .fs-mobile-overlay { opacity: 1; }
+
+  .fs-mobile-panel {
+    position: absolute !important;
+    inset: 0 auto 0 0 !important;
+    width: min(88vw, 380px) !important;
+    max-width: min(88vw, 380px) !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    padding: max(10px, env(safe-area-inset-top)) 14px max(18px, env(safe-area-inset-bottom)) !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    background: #fff !important;
+    box-shadow: 18px 0 46px rgba(0,0,0,.22) !important;
+    transform: translate3d(-102%,0,0);
+    transition: transform 260ms cubic-bezier(.22,.61,.36,1);
+    will-change: transform;
+  }
+  .fs-mobile-drawer.open .fs-mobile-panel { transform: translate3d(0,0,0); }
+
+  .fs-mobile-head {
+    min-height: 56px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    margin: 0 0 10px !important;
+    padding: 0 2px 8px !important;
+    border-bottom: 1px solid #eceef0;
+  }
+  .fs-mobile-brand {
+    min-width: 0;
+    max-width: 180px;
+    border: 0;
+    padding: 0;
+    background: transparent;
+  }
+  .fs-mobile-brand img { width: 158px; max-height: 42px; object-fit: contain; }
+  .fs-mobile-close {
+    flex: 0 0 44px !important;
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    border: 0 !important;
+    border-radius: 10px !important;
+    display: grid !important;
+    place-items: center !important;
+    padding: 0 !important;
+    background: #f5f6f7 !important;
+    color: #111 !important;
+  }
+  .fs-mobile-close svg { width: 22px; height: 22px; stroke-width: 2; }
+
+  .fs-mobile-menu { display: block; width: 100%; }
+  .fs-mobile-section { border-bottom: 1px solid #e8eaed; }
+  .fs-mobile-root-toggle,
+  .fs-mobile-subtoggle,
+  .fs-mobile-leaf {
+    width: 100%;
+    min-width: 0;
+    border: 0;
+    background: transparent;
+    color: #151515;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .fs-mobile-root-toggle {
+    min-height: 62px;
+    padding: 0 6px;
+    font-size: 18px;
+    line-height: 1.2;
+    font-weight: 850;
+    letter-spacing: -.01em;
+  }
+  .fs-mobile-subtoggle {
+    min-height: 52px;
+    padding: 0 8px 0 14px;
+    border-top: 1px solid #f0f1f2;
+    font-size: 15px;
+    font-weight: 760;
+  }
+  .fs-mobile-leaf {
+    min-height: 47px;
+    padding: 8px 14px 8px 26px;
+    border-top: 1px solid #f3f4f5;
+    font-size: 14px;
+    line-height: 1.35;
+    font-weight: 620;
+  }
+  .fs-mobile-all-link { color: #b51218; font-weight: 800; }
+  .fs-mobile-brand-list .fs-mobile-leaf { padding-left: 14px; }
+
+  .fs-mobile-chevron {
+    flex: 0 0 18px;
+    width: 18px;
+    height: 18px;
+    stroke-width: 2;
+    transition: transform 240ms ease;
+  }
+  [data-fs-mobile-toggle].is-open > .fs-mobile-chevron { transform: rotate(90deg); }
+
+  .fs-mobile-accordion {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: .72;
+    transition: grid-template-rows 250ms ease, opacity 220ms ease;
+  }
+  .fs-mobile-accordion > .fs-mobile-accordion-inner {
+    min-height: 0;
+    overflow: hidden;
+  }
+  .fs-mobile-accordion.is-open {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+
+  .fs-mobile-root-toggle:focus-visible,
+  .fs-mobile-subtoggle:focus-visible,
+  .fs-mobile-leaf:focus-visible,
+  .fs-mobile-close:focus-visible,
+  .fs-mobile-trigger:focus-visible {
+    outline: 2px solid #d71920;
+    outline-offset: 2px;
+  }
+}
+
+@media (max-width: 340px) {
+  .fs-mobile-header {
+    grid-template-columns: 40px minmax(0, 1fr) 38px 38px !important;
+    gap: 4px !important;
+    padding-left: 7px !important;
+    padding-right: 7px !important;
+  }
+  .fs-mobile-trigger { width: 40px !important; min-width: 40px !important; height: 40px !important; min-height: 40px !important; }
+  .fs-mobile-account, .fs-mobile-cart { width: 38px !important; min-width: 38px !important; height: 38px !important; min-height: 38px !important; }
+  .fs-mobile-search { height: 42px !important; min-height: 42px !important; }
+  .fs-mobile-search .icon-button { width: 38px !important; min-width: 38px !important; height: 38px !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fs-mobile-panel, .fs-mobile-overlay, .fs-mobile-accordion, .fs-mobile-chevron { transition-duration: 1ms !important; }
+}
+
+
+/* FIGHTSPORTS mobile navigation v23 - final hardening */
+@media (max-width: 860px) {
+  /* Beat legacy v21 two-row search rule: the whole mobile header is one row. */
+  .fs-mobile-header {
+    grid-template-rows: 48px !important;
+    min-height: 64px !important;
+    height: auto !important;
+  }
+  .fs-mobile-header .header-actions { display: contents !important; }
+  .fs-mobile-header .header-actions .fs-mobile-search {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    align-self: center !important;
+    justify-self: stretch !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    margin: 0 !important;
+  }
+  .fs-mobile-header .fs-mobile-trigger,
+  .fs-mobile-header .fs-mobile-account,
+  .fs-mobile-header .fs-mobile-cart {
+    grid-row: 1 !important;
+  }
+  .fs-mobile-header .fs-mobile-account { grid-column: 3 !important; }
+  .fs-mobile-header .fs-mobile-cart { grid-column: 4 !important; }
+  .fs-mobile-header .fs-mobile-cart .cart-badge {
+    right: -2px !important;
+    top: -2px !important;
+  }
+  .fs-mobile-panel { contain: layout paint; }
+}

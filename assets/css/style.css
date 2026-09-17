@@ -1547,3 +1547,184 @@ body { overflow-x: clip; }
   .product-card-footer .price-line strong { font-size: 13.5px !important; }
   .product-quick-cart { flex-basis: 30px !important; width: 30px !important; height: 30px !important; }
 }
+
+
+/* ==========================================================
+   v24 HOME JUMP BAR — pozycja dokładnie jak na referencji
+   slider -> szary pasek -> 4 benefity -> sekcje produktów
+   ========================================================== */
+
+.home-jump-bar {
+  position: static !important;
+  inset: auto !important;
+  z-index: auto !important;
+
+  width: 100vw !important;
+  max-width: none !important;
+  margin: 0 calc(50% - 50vw) !important;
+  padding: 0 !important;
+
+  background: #f1f1f1 !important;
+  border-top: 1px solid #dedede !important;
+  border-bottom: 1px solid #dedede !important;
+  box-shadow: none !important;
+}
+
+.home-jump-inner {
+  width: min(1180px, calc(100% - 32px)) !important;
+  min-height: 48px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: clamp(34px, 6vw, 82px) !important;
+
+  overflow: visible !important;
+  white-space: nowrap !important;
+}
+
+.home-jump-inner a {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  min-height: 48px !important;
+  padding: 0 !important;
+
+  color: #262626 !important;
+  background: transparent !important;
+  border: 0 !important;
+
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  text-decoration: none !important;
+}
+
+.home-jump-inner a:hover,
+.home-jump-inner a:focus-visible {
+  color: #d60000 !important;
+}
+
+/* Slider styka się bezpośrednio z paskiem. */
+.hero-section {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.hero-section + .home-jump-bar {
+  margin-top: 0 !important;
+}
+
+/* Ikony zaczynają się zaraz pod paskiem. */
+.home-jump-bar + .home-benefits {
+  margin-top: 0 !important;
+}
+
+/* Pasek NIE jest sticky podczas scrollowania. */
+#homeJumpBar {
+  position: static !important;
+  top: auto !important;
+}
+
+/* Mobile: ten sam układ, a przy bardzo małej szerokości
+   przewija się wyłącznie zawartość paska, nie cała strona. */
+@media (max-width: 620px) {
+  .home-jump-bar {
+    width: 100vw !important;
+    margin-left: calc(50% - 50vw) !important;
+    margin-right: calc(50% - 50vw) !important;
+  }
+
+  .home-jump-inner {
+    width: 100% !important;
+    min-height: 44px !important;
+    margin: 0 !important;
+    padding: 0 14px !important;
+
+    justify-content: flex-start !important;
+    gap: 24px !important;
+
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scrollbar-width: none !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .home-jump-inner::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .home-jump-inner a {
+    min-height: 44px !important;
+    flex: 0 0 auto !important;
+    font-size: 12px !important;
+  }
+}
+
+
+/* ==========================================================
+   v25 STICKY HOME JUMP BAR
+   Start: pod sliderem.
+   Scroll: zostaje widoczny pod sticky headerem.
+   ========================================================== */
+
+:root {
+  --fs-desktop-header-height: 82px;
+  --fs-jump-bar-height: 48px;
+  --fs-mobile-header-height: 64px;
+  --fs-mobile-jump-bar-height: 44px;
+}
+
+/* Nadpisuje v24 "static", ale nie zmienia pozycji początkowej w dokumencie. */
+#homeJumpBar.home-jump-bar {
+  position: sticky !important;
+  top: var(--fs-desktop-header-height) !important;
+  z-index: 55 !important;
+  isolation: isolate;
+  margin-top: 0 !important;
+  box-shadow: 0 3px 10px rgba(0,0,0,.035) !important;
+}
+
+/* Po kliknięciu linków nagłówek sekcji nie chowa się pod headerem+paskiem. */
+#polecane,
+#bestsellery,
+#nowosci,
+#promocje {
+  scroll-margin-top: calc(
+    var(--fs-desktop-header-height) +
+    var(--fs-jump-bar-height) +
+    16px
+  ) !important;
+}
+
+/* Mobile header v23 ma 64px wysokości. */
+@media (max-width: 860px) {
+  #homeJumpBar.home-jump-bar {
+    top: var(--fs-mobile-header-height) !important;
+    z-index: 75 !important;
+  }
+
+  #polecane,
+  #bestsellery,
+  #nowosci,
+  #promocje {
+    scroll-margin-top: calc(
+      var(--fs-mobile-header-height) +
+      var(--fs-mobile-jump-bar-height) +
+      12px
+    ) !important;
+  }
+}
+
+/* iPhone safe-area: jeśli przeglądarka wykorzystuje inset u góry,
+   header nadal jest bazą, a pasek nie wychodzi poza viewport. */
+@supports (top: env(safe-area-inset-top)) {
+  @media (max-width: 860px) {
+    #homeJumpBar.home-jump-bar {
+      top: var(--fs-mobile-header-height) !important;
+    }
+  }
+}

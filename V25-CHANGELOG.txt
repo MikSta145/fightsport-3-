@@ -1,0 +1,15 @@
+FIGHTSPORTS v25 — STICKY BAR
+
+Zmiana:
+- pasek Wybrane dla Ciebie / Bestsellery / Nowości / Promocje
+  nadal zaczyna bezpośrednio pod sliderem,
+- po przewinięciu przykleja się pod sticky headerem,
+- po kliknięciu dowolnej pozycji pasek pozostaje widoczny,
+- scroll-margin sekcji uwzględnia header + pasek,
+- desktop: top 82px, pasek 48px,
+- mobile: top 64px, pasek 44px,
+- menu mobile v23/v24, produkty, koszyk i reszta layoutu bez zmian.
+
+Kontrole:
+- JavaScript: OK
+- błędne lokalne linki: 0

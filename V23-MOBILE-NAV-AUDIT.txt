@@ -1,0 +1,55 @@
+FIGHTSPORTS v23 — MOBILE NAV HARDENED
+
+CO POPRAWIONO WZGLĘDEM v22:
+- wymuszono prawdziwy jednorzędowy header:
+  hamburger | wyszukiwarka | konto | koszyk
+- usunięto konflikt CSS ze starszym v21, który spychał wyszukiwarkę do drugiego rzędu,
+- naprawiono błąd JavaScript związany z usuniętym formularzem mobileSearch,
+- zachowano 3 pozycje pierwszego poziomu:
+  Kategorie / Producenci / O FIGHTSPORTS,
+- accordion root + accordion podkategorii,
+- tylko jedna sekcja tego samego poziomu może być otwarta naraz,
+- X ma 44x44 px,
+- overlay zamyka drawer,
+- Escape zamyka drawer,
+- scroll body jest blokowany i przywracany,
+- aria-expanded / aria-hidden są synchronizowane,
+- ukryte accordiony są inert, więc fokus klawiatury nie wpada do niewidocznych elementów,
+- dodano focus trap wewnątrz otwartego drawer,
+- wielokrotne otwieranie/zamykanie nie dokłada kolejnych listenerów,
+- drawer: min(88vw, 380px), nigdy poza viewportem,
+- desktopowy wygląd nie został przebudowany,
+- produkty, koszyk, dane produktów i wyszukiwarka nie zostały przebudowane.
+
+AUTOMATYCZNE TESTY CHROMIUM MOBILE:
+Szerokości: 320, 375, 390, 393, 414, 430 px
+Wynik wszystkich testów: OK
+
+Na każdej szerokości sprawdzono:
+- brak overflow-x,
+- położenie hamburgera,
+- elastyczną wyszukiwarkę,
+- konto i koszyk w viewport,
+- dokładnie 3 pozycje głównego menu,
+- otwarcie drawer,
+- Kategorie accordion,
+- podkategorię accordion,
+- zamknięcie X,
+- zamknięcie overlay,
+- 3 kolejne cykle otwórz/zamknij,
+- scroll lock,
+- 44x44 px przycisku X.
+
+BŁĘDY RUNTIME W TESTACH: 0
+BŁĘDNE LOKALNE LINKI/ASSETY: 0
+HTML Z DODANYM aria-controls/aria-expanded: 450
+
+WORDPRESS / WOOCOMMERCE:
+- zachować klasy fs-mobile-*,
+- fs-mobile-nav.css i fs-mobile-nav.js enqueue przez wp_enqueue_style/wp_enqueue_script,
+- markup drawer przenieść do header.php,
+- Kategorie generować z get_terms('product_cat') lub menu WP,
+- Producentów generować z taksonomii marek użytej przez sklep,
+- O FIGHTSPORTS generować z osobnego wp_nav_menu,
+- zachować data-fs-mobile-toggle, aria-controls i hierarchię accordion,
+- nie przenosić statycznej listy produktów do motywu — produkty przejmuje WooCommerce.
