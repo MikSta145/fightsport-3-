@@ -1728,3 +1728,62 @@ body { overflow-x: clip; }
     }
   }
 }
+
+
+/* ==========================================================
+   v26 iOS-safe persistent home jump bar
+   JS fallback instead of relying on CSS sticky on Safari/iOS.
+   ========================================================== */
+
+#start > .fs-jump-shell {
+  order: 2;
+}
+
+.fs-jump-shell {
+  width: 100%;
+  min-width: 0;
+  height: 48px;
+  position: relative;
+}
+
+/* Disable the old sticky behavior inside the new shell.
+   JS will switch to fixed only after the correct threshold. */
+.fs-jump-shell > #homeJumpBar.home-jump-bar {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  z-index: 55 !important;
+}
+
+/* While fixed, the shell remains in the document and prevents layout jump. */
+.fs-jump-shell.fs-jump-is-fixed > #homeJumpBar.home-jump-bar {
+  position: fixed !important;
+  top: var(--fs-live-header-height, 82px) !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100vw !important;
+  max-width: 100vw !important;
+  margin: 0 !important;
+  z-index: 59 !important;
+  box-shadow: 0 4px 13px rgba(0,0,0,.07) !important;
+}
+
+/* Dynamic scroll offset is set by JS from real measured header/bar heights. */
+#polecane,
+#bestsellery,
+#nowosci,
+#promocje {
+  scroll-margin-top: var(--fs-live-scroll-offset, 150px) !important;
+}
+
+@media (max-width: 860px) {
+  .fs-jump-shell {
+    height: 44px;
+  }
+
+  .fs-jump-shell.fs-jump-is-fixed > #homeJumpBar.home-jump-bar {
+    top: var(--fs-live-header-height, 64px) !important;
+    z-index: 90 !important;
+  }
+}

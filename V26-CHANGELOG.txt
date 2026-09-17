@@ -1,0 +1,21 @@
+FIGHTSPORTS v26 — iOS SAFE STICKY BAR
+
+Naprawa:
+- pasek pozostaje w normalnym miejscu pod sliderem na początku,
+- po przewinięciu jest przełączany przez JS na position: fixed,
+- spacer fs-jump-shell zachowuje miejsce i zapobiega skokowi layoutu,
+- wysokość headera i paska jest mierzona dynamicznie,
+- scroll offset sekcji jest liczony dynamicznie,
+- rozwiązanie nie zależy od CSS position: sticky,
+- odporne na Safari/iOS oraz body scroll-lock używany przez mobile menu,
+- desktop zachowuje ten sam wygląd.
+
+Pliki:
+- index.html
+- assets/css/style.css
+- assets/js/fs-sticky-jump.js
+
+Kontrole:
+- script.js: OK
+- fs-sticky-jump.js: OK
+- błędne lokalne linki: 0
