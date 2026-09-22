@@ -1,0 +1,7 @@
+FIGHTSPORTS v33 — MOBILE QUICK CART
+
+- Restored the floating quick-cart basket on mobile.
+- Added a live item-count badge to the floating basket.
+- On touch devices, tapping the floating basket opens the quick cart preview with products and total.
+- The preview includes the existing button to open the full cart page.
+- Desktop hover behavior and all v32 hero changes are preserved.

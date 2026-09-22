@@ -1143,6 +1143,21 @@ const baseProducts = [{"id":"FS-1034","slug":"under-armour-bidon-playmaker-squee
       const count = lines.reduce((sum, item) => sum + item.qty, 0);
       const hasItems = count > 0;
       document.body.classList.toggle("cart-has-items", hasItems);
+
+      // The desktop quick-cart button is now also visible on mobile.
+      // Create its count badge at runtime so every generated page gets it
+      // without duplicating markup across hundreds of static pages.
+      document.querySelectorAll(".floating-button").forEach(button => {
+        if (!button.querySelector(".floating-cart-badge")) {
+          const badge = document.createElement("span");
+          badge.className = "floating-cart-badge";
+          badge.setAttribute("data-cart-count", "");
+          badge.hidden = true;
+          badge.textContent = "0";
+          button.appendChild(badge);
+        }
+      });
+
       document.querySelectorAll("[data-cart-count]").forEach(node => {
         node.textContent = count;
         node.hidden = !hasItems;
@@ -1382,29 +1397,49 @@ const baseProducts = [{"id":"FS-1034","slug":"under-armour-bidon-playmaker-squee
     function bindQuickCartHover() {
       const floatingCart = document.querySelector(".floating-cart");
       const quickCart = byId("quickCart");
-      if (!floatingCart || !quickCart) return;
+      const floatingButton = floatingCart?.querySelector(".floating-button");
+      if (!floatingCart || !quickCart || !floatingButton) return;
 
       const hoverCapable = window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-      if (!hoverCapable) return;
-
       let hideTimer = 0;
       const showQuickCart = () => {
         window.clearTimeout(hideTimer);
         floatingCart.classList.add("is-quick-cart-open");
         quickCart.classList.add("open");
+        floatingButton.setAttribute("aria-expanded", "true");
+      };
+      const hideQuickCart = () => {
+        window.clearTimeout(hideTimer);
+        floatingCart.classList.remove("is-quick-cart-open");
+        quickCart.classList.remove("open");
+        floatingButton.setAttribute("aria-expanded", "false");
       };
       const scheduleQuickCartHide = () => {
         window.clearTimeout(hideTimer);
-        hideTimer = window.setTimeout(() => {
-          floatingCart.classList.remove("is-quick-cart-open");
-          quickCart.classList.remove("open");
-        }, 320);
+        hideTimer = window.setTimeout(hideQuickCart, 320);
       };
 
-      floatingCart.addEventListener("mouseenter", showQuickCart);
-      floatingCart.addEventListener("mouseleave", scheduleQuickCartHide);
-      quickCart.addEventListener("mouseenter", showQuickCart);
-      quickCart.addEventListener("mouseleave", scheduleQuickCartHide);
+      floatingButton.setAttribute("aria-haspopup", "dialog");
+      floatingButton.setAttribute("aria-expanded", "false");
+
+      if (hoverCapable) {
+        floatingCart.addEventListener("mouseenter", showQuickCart);
+        floatingCart.addEventListener("mouseleave", scheduleQuickCartHide);
+        quickCart.addEventListener("mouseenter", showQuickCart);
+        quickCart.addEventListener("mouseleave", scheduleQuickCartHide);
+      } else {
+        // Touch/mobile: first tap opens a real quick-cart preview.
+        // The button inside the preview still navigates to the full cart page.
+        floatingButton.addEventListener("click", event => {
+          event.preventDefault();
+          event.stopPropagation();
+          const isOpen = quickCart.classList.contains("open");
+          if (isOpen) hideQuickCart(); else showQuickCart();
+        });
+        document.addEventListener("pointerdown", event => {
+          if (!floatingCart.contains(event.target)) hideQuickCart();
+        }, { passive: true });
+      }
     }
 
     function bindEvents() {

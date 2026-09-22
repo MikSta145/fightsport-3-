@@ -312,7 +312,54 @@
       .detail-gallery { min-height: auto; border-right: 0; border-bottom: 1px solid var(--line); }
       .detail-main-photo { min-height: 300px; }
       .info-grid, .detail-actions, .drawer-actions { grid-template-columns: 1fr; }
-      .floating-cart { display: none; }
+      /* Mobile quick cart: keep the floating basket available on touch devices. */
+      .floating-cart {
+        display: block;
+        right: 14px;
+        bottom: max(112px, calc(env(safe-area-inset-bottom) + 96px));
+        z-index: 155;
+      }
+      .floating-button {
+        width: 54px;
+        height: 54px;
+        position: relative;
+      }
+      .floating-cart-badge {
+        position: absolute;
+        top: -7px;
+        right: -7px;
+        min-width: 22px;
+        height: 22px;
+        padding: 0 6px;
+        border-radius: 999px;
+        display: grid;
+        place-items: center;
+        background: var(--red);
+        color: #fff;
+        border: 2px solid #fff;
+        font-size: 11px;
+        font-weight: 1000;
+        line-height: 1;
+        box-shadow: 0 4px 12px rgba(0,0,0,.18);
+      }
+      .floating-cart-badge[hidden] { display: none !important; }
+      .floating-cart .quick-cart {
+        position: fixed;
+        left: 14px;
+        right: 14px;
+        bottom: max(178px, calc(env(safe-area-inset-bottom) + 162px));
+        width: auto;
+        max-height: min(54dvh, 430px);
+        transform: translateY(18px);
+        opacity: 0;
+        pointer-events: none;
+      }
+      .floating-cart.is-quick-cart-open .quick-cart,
+      .floating-cart .quick-cart.open {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+      }
     }
     @media (max-width: 520px) {
       .brand-mark { width: 40px; height: 40px; }
