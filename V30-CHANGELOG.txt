@@ -1,0 +1,9 @@
+FIGHTSPORTS v30 — MOBILE HERO SWIPE
+
+- Hero/banner can now be swiped left/right with a finger on mobile.
+- Horizontal swipe follows the finger and finishes with a side-slide animation.
+- Vertical page scrolling is preserved (touch-action: pan-y).
+- Auto rotation is now 7 seconds.
+- Removed the “Pełny katalog” secondary link from hero slides.
+- Changed “Zobacz nowości” to “Przeglądaj nowości”.
+- Existing v29 desktop category sync and v28 mobile cart fix preserved.
