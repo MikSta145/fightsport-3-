@@ -1,0 +1,9 @@
+FIGHTSPORTS v36 — KFD STYLE HERO MOTION
+
+- Hero/banner slide animation tuned to match the KFD reference video.
+- Continuous horizontal transition: outgoing and incoming slides move together edge-to-edge.
+- Transition duration ~620 ms with a natural ease curve.
+- No fade / disappearing effect.
+- Finger swipe remains direct while dragging.
+- Auto rotation remains every 7 seconds.
+- Mobile floating quick-cart stays disabled as in v35.

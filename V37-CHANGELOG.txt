@@ -1,0 +1,9 @@
+FIGHTSPORTS v37 — KFD TRACK SLIDER
+
+- Hero rebuilt as one continuous horizontal track, like the KFD banner.
+- Old and new banners are physically adjacent and move together — no hide/show or fade.
+- Finger drag follows touch 1:1 in real time.
+- Release uses distance + flick velocity and snaps naturally to the next/previous banner.
+- Seamless loop uses cloned edge slides, so last -> first and first -> last do not flash or disappear.
+- Auto rotation remains 7 seconds.
+- Mobile floating quick-cart remains disabled.

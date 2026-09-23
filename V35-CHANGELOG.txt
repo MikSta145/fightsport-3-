@@ -1,0 +1,8 @@
+FIGHTSPORTS v35 — SLOW NATURAL HERO
+
+- Hero slide transition slowed down from 0.65 s to 1.05 s.
+- Transition keeps the continuous side-slide effect (no fade / hiding).
+- Swipe gesture still follows the finger directly while dragging.
+- Release / automatic slide now feels slower and closer to a real finger swipe.
+- Mobile floating quick cart remains disabled as in v34.
+- All previous fixes preserved.

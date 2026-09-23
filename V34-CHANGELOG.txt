@@ -1,0 +1,8 @@
+FIGHTSPORTS v34 — MOBILE CART OFF + SLOW HERO SLIDE
+
+- Removed the extra floating quick-cart from the mobile layout.
+- The normal cart icon in the mobile header remains unchanged.
+- Slowed hero/banner slide transitions to about 0.65 s.
+- Automatic and swipe-finish transitions use the same smoother side-slide motion.
+- Auto rotation remains every 7 seconds.
+- Existing v33/v32/v31 fixes are preserved.

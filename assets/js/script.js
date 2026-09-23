@@ -83,6 +83,8 @@ const baseProducts = [{"id":"FS-1034","slug":"under-armour-bidon-playmaker-squee
     let slideTimer = null;
     let heroAnimating = false;
     let heroSwipeBound = false;
+    let heroVisualIndex = 1;
+    const HERO_MOTION_MS = 580;
     let activeMega = "";
     let products = baseProducts.slice();
     let cart = readCart();
@@ -410,9 +412,9 @@ const baseProducts = [{"id":"FS-1034","slug":"under-armour-bidon-playmaker-squee
       }
     }
 
-    function renderHero() {
-      byId("heroSlides").innerHTML = heroSlides.map((slide, index) => `
-        <article class="hero-slide ${index === activeSlide ? "active" : ""}" data-slide="${index}">
+    function heroSlideMarkup(slide, logicalIndex, clone = false) {
+      return `
+        <article class="hero-slide ${!clone && logicalIndex === activeSlide ? "active" : ""}" data-slide="${logicalIndex}" ${clone ? 'data-hero-clone="true" aria-hidden="true"' : ""}>
           <div class="hero-copy">
             <span class="eyebrow">${escapeHtml(slide.label)}</span>
             <h1>${escapeHtml(slide.title)}</h1>
@@ -422,10 +424,44 @@ const baseProducts = [{"id":"FS-1034","slug":"under-armour-bidon-playmaker-squee
             </div>
           </div>
           <a class="hero-art" href="${categoryHref(slide.category)}" data-category="${slide.category}" aria-label="${escapeHtml(slide.action)}">
-            <img src="${srcOf(slide.image)}" alt="${escapeHtml(slide.title)}" onerror="this.src=fallbackImage" />
+            <img src="${srcOf(slide.image)}" alt="${escapeHtml(slide.title)}" onerror="this.src=fallbackImage" draggable="false" />
           </a>
         </article>
-      `).join("");
+      `;
+    }
+
+    function heroWidth() {
+      const carousel = byId("heroCarousel");
+      return Math.max(1, carousel ? carousel.getBoundingClientRect().width : 1);
+    }
+
+    function setHeroTrackPosition(visualIndex = heroVisualIndex, animate = false, dragOffset = 0) {
+      const track = byId("heroSlides");
+      if (!track) return;
+      const width = heroWidth();
+      track.classList.toggle("hero-track-animating", !!animate);
+      if (!animate) track.classList.remove("hero-track-animating");
+      track.style.transform = `translate3d(${(-visualIndex * width) + dragOffset}px,0,0)`;
+    }
+
+    function syncHeroActiveClass() {
+      document.querySelectorAll("#heroSlides .hero-slide").forEach(slide => {
+        const isClone = slide.dataset.heroClone === "true";
+        slide.classList.toggle("active", !isClone && Number(slide.dataset.slide) === activeSlide);
+      });
+    }
+
+    function renderHero() {
+      const track = byId("heroSlides");
+      if (!track || !heroSlides.length) return;
+      const lastIndex = heroSlides.length - 1;
+      track.innerHTML = [
+        heroSlideMarkup(heroSlides[lastIndex], lastIndex, true),
+        ...heroSlides.map((slide, index) => heroSlideMarkup(slide, index, false)),
+        heroSlideMarkup(heroSlides[0], 0, true)
+      ].join("");
+      heroVisualIndex = activeSlide + 1;
+      setHeroTrackPosition(heroVisualIndex, false, 0);
       updateHeroDots();
     }
 
@@ -437,49 +473,67 @@ const baseProducts = [{"id":"FS-1034","slug":"under-armour-bidon-playmaker-squee
       ).join("");
     }
 
-    function animateHeroTo(nextIndex, direction, fromDrag = null) {
-      if (heroAnimating || nextIndex === activeSlide) return;
-      const slides = Array.from(document.querySelectorAll("#heroSlides .hero-slide"));
-      const current = slides[activeSlide];
-      const next = slides[nextIndex];
-      const carousel = byId("heroCarousel");
-      if (!current || !next || !carousel) {
-        activeSlide = nextIndex;
-        renderHero();
-        return;
+    function finishHeroLoopPosition() {
+      const count = heroSlides.length;
+      if (heroVisualIndex === 0) {
+        heroVisualIndex = count;
+        setHeroTrackPosition(heroVisualIndex, false, 0);
+      } else if (heroVisualIndex === count + 1) {
+        heroVisualIndex = 1;
+        setHeroTrackPosition(heroVisualIndex, false, 0);
       }
+      syncHeroActiveClass();
+    }
+
+    function animateHeroTo(nextIndex, direction, fromDrag = null) {
+      if (heroAnimating || nextIndex === activeSlide || !heroSlides.length) return;
+      const track = byId("heroSlides");
+      if (!track) return;
+
+      const count = heroSlides.length;
+      const dir = direction >= 0 ? 1 : -1;
+      let targetVisual;
+      if (dir > 0 && activeSlide === count - 1 && nextIndex === 0) targetVisual = count + 1;
+      else if (dir < 0 && activeSlide === 0 && nextIndex === count - 1) targetVisual = 0;
+      else targetVisual = nextIndex + 1;
 
       heroAnimating = true;
-      const width = Math.max(1, carousel.getBoundingClientRect().width);
-      const dir = direction >= 0 ? 1 : -1;
-      const startCurrent = fromDrag == null ? 0 : fromDrag;
-      const startNext = fromDrag == null ? dir * width : dir * width + fromDrag;
+      track.classList.remove("hero-track-dragging");
+      if (fromDrag != null) {
+        track.classList.remove("hero-track-animating");
+        setHeroTrackPosition(heroVisualIndex, false, fromDrag);
+        void track.offsetWidth;
+      }
 
-      current.classList.add("hero-swiping");
-      next.classList.add("hero-swiping");
-      next.style.pointerEvents = "none";
-      current.style.transform = `translateX(${startCurrent}px)`;
-      next.style.transform = `translateX(${startNext}px)`;
+      const oldVisual = heroVisualIndex;
+      heroVisualIndex = targetVisual;
+      activeSlide = nextIndex;
+      syncHeroActiveClass();
+      updateHeroDots();
 
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        current.style.transform = `translateX(${-dir * width}px)`;
-        next.style.transform = "translateX(0px)";
-      }));
-
-      window.setTimeout(() => {
-        current.classList.remove("active", "hero-swiping", "hero-dragging");
-        next.classList.remove("hero-swiping", "hero-dragging");
-        next.classList.add("active");
-        current.removeAttribute("style");
-        next.removeAttribute("style");
-        activeSlide = nextIndex;
+      let done = false;
+      const complete = () => {
+        if (done) return;
+        done = true;
+        track.removeEventListener("transitionend", onTransitionEnd);
+        track.classList.remove("hero-track-animating");
+        finishHeroLoopPosition();
         heroAnimating = false;
-        updateHeroDots();
-      }, 380);
+      };
+      const onTransitionEnd = event => {
+        if (event.target === track && event.propertyName === "transform") complete();
+      };
+      track.addEventListener("transitionend", onTransitionEnd);
+
+      requestAnimationFrame(() => {
+        track.classList.add("hero-track-animating");
+        setHeroTrackPosition(heroVisualIndex, true, 0);
+      });
+      window.setTimeout(complete, HERO_MOTION_MS + 160);
     }
 
     function moveHero(direction) {
-      if (heroAnimating) return;
+      if (heroAnimating || !heroSlides.length) return;
       const nextIndex = (activeSlide + direction + heroSlides.length) % heroSlides.length;
       animateHeroTo(nextIndex, direction);
       restartHeroTimer();
@@ -487,8 +541,10 @@ const baseProducts = [{"id":"FS-1034","slug":"under-armour-bidon-playmaker-squee
 
     function bindHeroSwipe() {
       const carousel = byId("heroCarousel");
-      if (!carousel || heroSwipeBound) return;
+      const track = byId("heroSlides");
+      if (!carousel || !track || heroSwipeBound) return;
       heroSwipeBound = true;
+
       let startX = 0;
       let startY = 0;
       let dx = 0;
@@ -496,40 +552,31 @@ const baseProducts = [{"id":"FS-1034","slug":"under-armour-bidon-playmaker-squee
       let horizontal = false;
       let pointerId = null;
       let suppressClickUntil = 0;
+      let lastX = 0;
+      let lastT = 0;
+      let velocityX = 0;
 
-      function resetDrag(animateBack = true) {
-        const slides = Array.from(document.querySelectorAll("#heroSlides .hero-slide"));
-        const current = slides[activeSlide];
-        if (!current) return;
-        const direction = dx < 0 ? 1 : -1;
-        const nextIndex = (activeSlide + direction + heroSlides.length) % heroSlides.length;
-        const next = slides[nextIndex];
-        if (animateBack) {
-          current.classList.add("hero-swiping");
-          current.classList.remove("hero-dragging");
-          current.style.transform = "translateX(0px)";
-          if (next) {
-            const width = Math.max(1, carousel.getBoundingClientRect().width);
-            next.classList.add("hero-swiping");
-            next.classList.remove("hero-dragging");
-            next.style.transform = `translateX(${direction * width}px)`;
-          }
-          window.setTimeout(() => {
-            current.classList.remove("hero-swiping");
-            current.removeAttribute("style");
-            if (next) {
-              next.classList.remove("hero-swiping");
-              next.removeAttribute("style");
-            }
-          }, 380);
-        } else {
-          current.classList.remove("hero-dragging");
-          current.removeAttribute("style");
-          if (next) {
-            next.classList.remove("hero-dragging");
-            next.removeAttribute("style");
-          }
-        }
+      function snapBack() {
+        const localTrack = byId("heroSlides");
+        if (!localTrack) return;
+        heroAnimating = true;
+        localTrack.classList.remove("hero-track-dragging");
+        void localTrack.offsetWidth;
+        localTrack.classList.add("hero-track-animating");
+        setHeroTrackPosition(heroVisualIndex, true, 0);
+        let done = false;
+        const complete = () => {
+          if (done) return;
+          done = true;
+          localTrack.removeEventListener("transitionend", onEnd);
+          localTrack.classList.remove("hero-track-animating");
+          heroAnimating = false;
+        };
+        const onEnd = event => {
+          if (event.target === localTrack && event.propertyName === "transform") complete();
+        };
+        localTrack.addEventListener("transitionend", onEnd);
+        window.setTimeout(complete, HERO_MOTION_MS + 160);
       }
 
       carousel.addEventListener("pointerdown", event => {
@@ -537,6 +584,9 @@ const baseProducts = [{"id":"FS-1034","slug":"under-armour-bidon-playmaker-squee
         pointerId = event.pointerId;
         startX = event.clientX;
         startY = event.clientY;
+        lastX = event.clientX;
+        lastT = performance.now();
+        velocityX = 0;
         dx = 0;
         dragging = true;
         horizontal = false;
@@ -548,28 +598,25 @@ const baseProducts = [{"id":"FS-1034","slug":"under-armour-bidon-playmaker-squee
         dx = event.clientX - startX;
         const dy = event.clientY - startY;
         if (!horizontal) {
-          if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+          if (Math.abs(dx) < 7 && Math.abs(dy) < 7) return;
           if (Math.abs(dy) > Math.abs(dx)) {
             dragging = false;
             restartHeroTimer();
             return;
           }
           horizontal = true;
+          track.classList.remove("hero-track-animating");
+          track.classList.add("hero-track-dragging");
           try { carousel.setPointerCapture(pointerId); } catch (_) {}
         }
+
         event.preventDefault();
-        const width = Math.max(1, carousel.getBoundingClientRect().width);
-        const direction = dx < 0 ? 1 : -1;
-        const nextIndex = (activeSlide + direction + heroSlides.length) % heroSlides.length;
-        const slides = Array.from(document.querySelectorAll("#heroSlides .hero-slide"));
-        const current = slides[activeSlide];
-        const next = slides[nextIndex];
-        if (!current || !next) return;
-        current.classList.add("hero-dragging");
-        next.classList.add("hero-dragging");
-        next.style.pointerEvents = "none";
-        current.style.transform = `translateX(${dx}px)`;
-        next.style.transform = `translateX(${direction * width + dx}px)`;
+        const now = performance.now();
+        const dt = Math.max(1, now - lastT);
+        velocityX = (event.clientX - lastX) / dt;
+        lastX = event.clientX;
+        lastT = now;
+        setHeroTrackPosition(heroVisualIndex, false, dx);
       }, { passive: false });
 
       function endSwipe(event) {
@@ -577,25 +624,26 @@ const baseProducts = [{"id":"FS-1034","slug":"under-armour-bidon-playmaker-squee
         dragging = false;
         if (!horizontal) {
           restartHeroTimer();
+          pointerId = null;
           return;
         }
-        const width = Math.max(1, carousel.getBoundingClientRect().width);
-        const threshold = Math.min(90, width * 0.18);
-        if (Math.abs(dx) >= threshold) {
-          suppressClickUntil = Date.now() + 450;
+
+        const width = heroWidth();
+        const threshold = Math.min(96, width * 0.16);
+        const flick = Math.abs(velocityX) > 0.38 && Math.abs(dx) > 18;
+        if (Math.abs(dx) >= threshold || flick) {
+          suppressClickUntil = Date.now() + 500;
           const direction = dx < 0 ? 1 : -1;
           const nextIndex = (activeSlide + direction + heroSlides.length) % heroSlides.length;
-          const slides = Array.from(document.querySelectorAll("#heroSlides .hero-slide"));
-          slides.forEach(slide => slide.classList.remove("hero-dragging"));
           animateHeroTo(nextIndex, direction, dx);
-          restartHeroTimer();
         } else {
-          resetDrag(true);
-          restartHeroTimer();
+          snapBack();
         }
+        restartHeroTimer();
         dx = 0;
         horizontal = false;
         pointerId = null;
+        velocityX = 0;
       }
 
       carousel.addEventListener("pointerup", endSwipe);
@@ -606,6 +654,10 @@ const baseProducts = [{"id":"FS-1034","slug":"under-armour-bidon-playmaker-squee
           event.stopPropagation();
         }
       }, true);
+
+      window.addEventListener("resize", () => {
+        if (!dragging && !heroAnimating) setHeroTrackPosition(heroVisualIndex, false, 0);
+      }, { passive: true });
     }
 
     function restartHeroTimer() {
