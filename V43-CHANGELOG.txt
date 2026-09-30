@@ -1,0 +1,8 @@
+FIGHTSPORTS v43 — CLIENT PREVIEW FINAL
+
+- baza: v42 spacing + v39 image-only hero
+- hero/banner: tylko zdjęcie, bez badge, nagłówków, opisów i CTA
+- zachowany pełnoszeroki slider i swipe/track motion
+- zachowane aktualne odstępy/spacing strony głównej
+- dodany cache-busting ?v=43 do CSS/JS, aby GitHub Pages/Safari nie pokazywał starej wersji bannera
+- bez zmian w produktach, menu i koszyku
