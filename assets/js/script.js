@@ -415,15 +415,7 @@ const baseProducts = [{"id":"FS-1034","slug":"under-armour-bidon-playmaker-squee
     function heroSlideMarkup(slide, logicalIndex, clone = false) {
       return `
         <article class="hero-slide ${!clone && logicalIndex === activeSlide ? "active" : ""}" data-slide="${logicalIndex}" ${clone ? 'data-hero-clone="true" aria-hidden="true"' : ""}>
-          <div class="hero-copy">
-            <span class="eyebrow">${escapeHtml(slide.label)}</span>
-            <h1>${escapeHtml(slide.title)}</h1>
-            <p>${escapeHtml(slide.copy)}</p>
-            <div class="hero-actions">
-              <a class="primary-button" href="${categoryHref(slide.category)}" data-category="${slide.category}">${escapeHtml(slide.action)}</a>
-            </div>
-          </div>
-          <a class="hero-art" href="${categoryHref(slide.category)}" data-category="${slide.category}" aria-label="${escapeHtml(slide.action)}">
+          <a class="hero-art hero-art-full" href="${categoryHref(slide.category)}" data-category="${slide.category}" aria-label="${escapeHtml(slide.action)}">
             <img src="${srcOf(slide.image)}" alt="${escapeHtml(slide.title)}" onerror="this.src=fallbackImage" draggable="false" />
           </a>
         </article>

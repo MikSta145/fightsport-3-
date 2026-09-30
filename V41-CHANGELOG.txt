@@ -1,0 +1,7 @@
+FIGHTSPORTS v41 — IMAGE HERO + PROPORTIONAL GAP
+
+- Bazą jest v39 FULL-WIDTH IMAGE HERO.
+- Banner nadal ma WYŁĄCZNIE zdjęcie: bez napisów, badge, opisu i przycisku.
+- Zachowany pełnoszeroki obraz oraz slider/swipe KFD.
+- Dodany dolny odstęp proporcjonalny do górnego: 34 px desktop, 14 px mobile.
+- Reszta strony bez zmian.

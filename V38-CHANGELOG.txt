@@ -1,0 +1,7 @@
+FIGHTSPORTS v38 — MOBILE CART HOME LINK FIX
+
+- Static/GitHub version, not WordPress.
+- Fixed the FIGHTSPORTS logo inside the mobile cart/menu flow so it always returns to the home page.
+- The mobile drawer FIGHTSPORTS logo is now a real anchor link to ./index.html, so it works even if page JavaScript is interrupted.
+- The newsletter FIGHTSPORTS logo on cart.html also returns to the home page.
+- v37 KFD-style track slider and all previous design/mobile fixes preserved.

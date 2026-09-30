@@ -1,0 +1,8 @@
+FIGHTSPORTS v39 — FULL WIDTH IMAGE HERO
+
+- Hero text, labels, descriptions and CTA buttons removed.
+- Each hero slide is now the image only.
+- Image fills the full banner area edge-to-edge.
+- Existing KFD-style track/swipe animation preserved.
+- Desktop and mobile hero adjusted for image-first layout.
+- v38 cart home-link fix preserved.

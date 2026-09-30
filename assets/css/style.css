@@ -1282,6 +1282,10 @@ html {
 }
 
 @media (max-width: 620px) {
+  .hero-section {
+    padding-bottom: 14px !important;
+  }
+
   .home-jump-bar {
     margin-top: 8px;
   }
@@ -1645,10 +1649,10 @@ body { overflow-x: clip; }
   color: #d60000 !important;
 }
 
-/* Slider styka się bezpośrednio z paskiem. */
+/* v41: równy, proporcjonalny oddech nad i pod bannerem. */
 .hero-section {
   margin-bottom: 0 !important;
-  padding-bottom: 0 !important;
+  padding-bottom: 34px !important;
 }
 
 .hero-section + .home-jump-bar {
@@ -1966,5 +1970,81 @@ body { overflow-x: clip; }
 
   .category-pill {
     font-size: 12.5px !important;
+  }
+}
+
+
+/* ===== v39: image-only full-width hero ===== */
+.hero-carousel {
+  min-height: 318px !important;
+  background: #111;
+}
+.hero-slide {
+  display: block !important;
+  padding: 0 !important;
+  gap: 0 !important;
+  background: #111;
+}
+.hero-copy,
+.hero-actions,
+.hero-slide .eyebrow {
+  display: none !important;
+}
+.hero-art.hero-art-full {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  display: block !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  background: #111 !important;
+}
+.hero-art.hero-art-full img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+  filter: none !important;
+  user-select: none !important;
+  -webkit-user-drag: none !important;
+}
+
+@media (max-width: 860px) {
+  .hero-carousel {
+    min-height: 0 !important;
+    height: auto !important;
+    aspect-ratio: 16 / 7 !important;
+  }
+  .hero-slide {
+    min-height: 0 !important;
+    height: 100% !important;
+    text-align: initial !important;
+  }
+  .hero-art.hero-art-full,
+  .hero-art.hero-art-full img {
+    min-height: 0 !important;
+  }
+  .hero-arrow {
+    top: 50% !important;
+    bottom: auto !important;
+    transform: translateY(-50%) !important;
+  }
+  .hero-arrow.prev { left: 12px !important; }
+  .hero-arrow.next { right: 12px !important; }
+  .hero-dots { bottom: 12px !important; }
+}
+
+@media (max-width: 520px) {
+  .hero-carousel {
+    min-height: 0 !important;
+    aspect-ratio: 16 / 8 !important;
   }
 }
