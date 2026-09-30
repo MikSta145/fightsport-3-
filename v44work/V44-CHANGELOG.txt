@@ -1,0 +1,12 @@
+FIGHTSPORTS v44 – CLIENT FEEDBACK
+
+Zmiany:
+- zmniejszony odstęp między benefitami a sekcją „Wybrane dla Ciebie”
+- mobilny hero jest niższy i bardziej panoramiczny (proporcja zgodna z grafikami 1300x430)
+- na mobile grafiki bannera są dopasowane w całości (object-fit: contain), bez obcinania
+- „Wysyłka 24h”: opis skrócony do „Szybka realizacja zamówień”
+- „Bezpieczne zakupy”: opis skrócony do „Pewne płatności, szybki kontakt”
+- usunięte małe czerwone kickery nad głównymi sekcjami produktów
+- nagłówki sekcji ustawione na: Wybrane dla Ciebie / Bestsellery / Nowości / Promocje
+- w panelu Producenci tekst kafelka zmieniony na „Suplementy, odzież i sprzęt sportowy”
+- cache-busting podniesiony do v44

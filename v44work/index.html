@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>FIGHTSPORTS - sklep sportowy</title>
   <meta name="description" content="FIGHTSPORTS - nowoczesny sklep sportów walki, suplementów, odzieży i akcesoriów treningowych." />
-  <link rel="stylesheet" href="./assets/css/style.css?v=43" />
-  <link rel="stylesheet" href="./assets/css/fs-mobile-nav.css?v=43" />
+  <link rel="stylesheet" href="./assets/css/style.css?v=44" />
+  <link rel="stylesheet" href="./assets/css/fs-mobile-nav.css?v=44" />
 
   <style>
-    /* v42: tighten gap between hero/benefits and recommended section */
+    /* v44: client spacing + compact benefits */
     .hero-section { margin-bottom: 0; }
     .fs-jump-shell { margin-bottom: 0; }
     .home-benefits {
-      padding-top: 22px !important;
-      padding-bottom: 18px !important;
+      padding-top: 18px !important;
+      padding-bottom: 8px !important;
       margin-bottom: 0 !important;
     }
     .home-benefits .page-wrap { margin-bottom: 0 !important; }
@@ -24,16 +24,35 @@
       row-gap: 14px !important;
     }
     #polecane.section {
-      padding-top: 14px !important;
+      padding-top: 8px !important;
       margin-top: 0 !important;
     }
     #polecane .page-wrap { margin-top: 0 !important; }
     @media (max-width: 768px) {
       .home-benefits {
-        padding-top: 18px !important;
-        padding-bottom: 12px !important;
+        padding-top: 14px !important;
+        padding-bottom: 6px !important;
       }
-      #polecane.section { padding-top: 10px !important; }
+      #polecane.section { padding-top: 6px !important; }
+    }
+
+    /* v44: requested mobile banner proportions + single-line short benefit copy */
+    .trust-copy-short { white-space: nowrap; max-width: none !important; }
+    @media (max-width: 860px) {
+      .hero-carousel {
+        min-height: 0 !important;
+        height: auto !important;
+        aspect-ratio: 1300 / 430 !important;
+        background: #111 !important;
+      }
+      .hero-art.hero-art-full img {
+        object-fit: contain !important;
+        object-position: center center !important;
+      }
+    }
+    @media (max-width: 520px) {
+      .hero-carousel { aspect-ratio: 1300 / 430 !important; }
+      .trust-copy-short { font-size: 10px !important; }
     }
   </style>
 
@@ -116,7 +135,7 @@
         </div>
       </section>
       <section class="mega-panel mega-brands" data-mega-panel="brands" aria-label="Producenci">
-        <div class="mega-promo-card"><strong>FIGHTSPORTS.PL</strong><span>Najlepszy sprzęt do sportów walki i treningu</span><a href="shop.html" data-category="all">Zobacz produkty</a></div>
+        <div class="mega-promo-card"><strong>FIGHTSPORTS.PL</strong><span>Suplementy, odzież i sprzęt sportowy</span><a href="shop.html" data-category="all">Zobacz produkty</a></div>
         <div class="mega-brand-list" id="megaBrandsList"></div>
       </section>
       <section class="mega-panel mega-about" data-mega-panel="about" aria-label="O FightSports">
@@ -241,7 +260,7 @@
             </span>
             <span>
               <strong>Wysyłka 24h</strong>
-              <small>Szybka realizacja zamówień i sprawna obsługa sklepu.</small>
+              <small class="trust-copy-short">Szybka realizacja zamówień</small>
             </span>
           </div>
 
@@ -256,7 +275,7 @@
             </span>
             <span>
               <strong>Bezpieczne zakupy</strong>
-              <small>Pewne płatności, szybki kontakt i wygodne zamawianie.</small>
+              <small class="trust-copy-short">Pewne płatności, szybki kontakt</small>
             </span>
           </div>
         </div>
@@ -275,7 +294,6 @@
       <div class="page-wrap">
         <div class="section-head">
           <div>
-            <p class="section-kicker">Wybrane</p>
             <h2 class="section-title">Wybrane dla Ciebie</h2>
           </div>
           <a class="outline-button" href="shop.html" data-category="all">Zobacz wszystkie produkty</a>
@@ -287,8 +305,7 @@
       <div class="page-wrap">
         <div class="section-head">
           <div>
-            <p class="section-kicker">Bestsellery</p>
-            <h2 class="section-title">Najczęściej wybierane</h2>
+            <h2 class="section-title">Bestsellery</h2>
           </div>
           <a class="outline-button" href="shop.html" data-category="all">Pełny katalog</a>
         </div>
@@ -299,8 +316,7 @@
       <div class="page-wrap">
         <div class="section-head">
           <div>
-            <p class="section-kicker">Nowości</p>
-            <h2 class="section-title">Nowe produkty w sklepie</h2>
+            <h2 class="section-title">Nowości</h2>
           </div>
           <a class="outline-button" href="categories/nowosci.html" data-category="nowosci">Zobacz nowości</a>
         </div>
@@ -311,8 +327,7 @@
       <div class="page-wrap">
         <div class="section-head">
           <div>
-            <p class="section-kicker">Promocje</p>
-            <h2 class="section-title">Produkty w lepszej cenie</h2>
+            <h2 class="section-title">Promocje</h2>
           </div>
           <a class="outline-button" href="categories/promocje.html" data-category="wyprzedaz">Zobacz wszystkie promocje</a>
         </div>
@@ -541,8 +556,8 @@
 
   <div class="toast" id="toast"></div>
 
-  <script src="./assets/js/script.js?v=43"></script>
-  <script src="./assets/js/fs-mobile-nav.js?v=43"></script>
-  <script src="assets/js/fs-sticky-jump.js?v=43"></script>
+  <script src="./assets/js/script.js?v=44"></script>
+  <script src="./assets/js/fs-mobile-nav.js?v=44"></script>
+  <script src="assets/js/fs-sticky-jump.js?v=44"></script>
 </body>
 </html>
