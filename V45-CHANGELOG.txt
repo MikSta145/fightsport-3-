@@ -1,0 +1,8 @@
+FIGHTSPORTS v45 – FINAL CLIENT FEEDBACK
+
+- skrócono blok 4 benefitów i przerwę przed „Wybrane dla Ciebie”
+- mobile hero ma natywną proporcję grafik 1300:430, jest niższy i pokazuje cały banner bez cropowania
+- globalnie skrócono opisy Wysyłka 24h / Bezpieczne zakupy
+- globalnie zmieniono kafelek Producenci: „Suplementy, odzież i sprzęt sportowy”
+- usunięto małe czerwone kickery Wybrane / Bestsellery / Nowości / Promocje
+- zachowano image-only hero, slider/swipe i resztę zaakceptowanego wyglądu
